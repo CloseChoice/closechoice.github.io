@@ -10,4 +10,4 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       # The port of the website
-      - 9000:9000
+      - 4444:9000

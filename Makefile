@@ -3,3 +3,6 @@ dev:
 
 prod:
 	docker compose -f docker-compose.yml -f docker-compose.prod.yml up
+
+prod_detached:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml up
