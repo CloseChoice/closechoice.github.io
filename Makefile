@@ -5,7 +5,7 @@ prod:
 	docker compose -f docker-compose.yml -f docker-compose.prod.yml up
 
 prod_detached:
-	docker compose -f docker-compose.yml -f docker-compose.prod.yml up
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 down:
 	docker compose -f docker-compose.yml -f docker-compose.prod.yml down -v --remove-orphans
