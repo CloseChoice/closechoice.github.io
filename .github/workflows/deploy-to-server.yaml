@@ -34,7 +34,7 @@ jobs:
     #   uses: mxschmitt/action-tmate@v3
     - name: Rsync to server
       # run: rsync -avz . dataframetrainer@${{ secrets.DATAFRAMETRAINER_SERVER_IP}}:/home/dataframetrainer/test/
-      run: rsync -avz --exclude='.git' --exclude='node_modules' --exclude='plugins' . dataframetrainer@${{ secrets.DATAFRAMETRAINER_SERVER_IP}}:/home/dataframetrainer/test/
+      run: rsync -avz --exclude='.git' --exclude='node_modules' --exclude='plugins' --exclude='.cache' . dataframetrainer@${{ secrets.DATAFRAMETRAINER_SERVER_IP}}:/home/dataframetrainer/test/
     - name: Run docker compose
       run: |
         ssh dataframetrainer@${{ secrets.DATAFRAMETRAINER_SERVER_IP}} "cd /home/dataframetrainer/test && make down cleanup && make prod_detached"
