@@ -1,0 +1,17 @@
+version: "3.1"
+
+services:
+  frontend:
+    container_name: tobias-pitters-frontend-dev
+    image: tobias-pitters-frontend-dev-image
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      # The port of the website
+      - 8000:8000
+    volumes:
+      # The local directory to the container
+      - .:/app
+    working_dir: /app
