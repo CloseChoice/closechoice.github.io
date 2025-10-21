@@ -1,4 +1,17 @@
 const axios = require('axios');
+// Quick mitigation for MaxListenersExceededWarning seen during develop.
+// This increases the EventEmitter listener cap so Gatsby won't warn when
+// several plugins add 'exit' listeners. Prefer investigating the root
+// cause (listener leak) in the long run.
+const { EventEmitter } = require('events');
+EventEmitter.defaultMaxListeners = 20;
+if (typeof process.setMaxListeners === 'function') {
+  try {
+    process.setMaxListeners(20);
+  } catch (e) {
+    // ignore if not allowed
+  }
+}
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
 const path = require('path');
 
@@ -100,8 +113,11 @@ exports.createPages = ({ actions, graphql }) => {
         });
       } else {
         const tagSet = new Set();
-        // for each tags on the frontmatter add them to the set
-        node.frontmatter.tags.forEach(tag => tagSet.add(tag));
+        // for each tag on the frontmatter add them to the set (guard if tags is missing)
+        const tags = (node.frontmatter && node.frontmatter.tags) || [];
+        if (Array.isArray(tags)) {
+          tags.forEach(tag => tagSet.add(tag));
+        }
 
         const tagList = Array.from(tagSet);
         // for each tags create a page with the specific `tag slug` (/blog/tags/:name)

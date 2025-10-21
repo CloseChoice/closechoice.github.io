@@ -53,7 +53,7 @@ const BlogCard = ({ date, readtime, title, excerpt, slug, tags }) => {
         <p>{excerpt}</p>
 
         <div style={{ marginTop: 20 }}>
-          {tags.map(tag => (
+          {(tags || []).map(tag => (
             <TagBreadcrumb
               key={tag}
               aria-label={`${tag} tag`}
@@ -79,6 +79,9 @@ BlogCard.propTypes = {
   title: PropTypes.string.isRequired,
   excerpt: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
-  tags: PropTypes.array.isRequired,
+  tags: PropTypes.array,
+};
+BlogCard.defaultProps = {
+  tags: [],
 };
 export default BlogCard;
