@@ -29,7 +29,7 @@ jobs:
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
         uses: actions/setup-node@v1
         with:
-          node-version: v20.x
+          node-version: v24.x
 
       - name: Build Node assets
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
