@@ -1,39 +1,45 @@
-name: Main
+name: Build and Deploy to Hetzner
+
 on:
   push:
     branches:
       - 'develop'
 
 jobs:
-  cypress-run:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    name: Test And Deploy
+    name: Build and Deploy
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          start: npm run develop
-          wait-on-timeout: 400
-          wait-on: 'http://localhost:8000'
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Build site
         run: npm run build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          publish_branch: master
-          publish_dir: ./public
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Archive videos
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-test-records
-          path: cypress/videos
+
+      - name: Deploy to Hetzner via SSH
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "public/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: "/var/www/tobiaspitters.com"
+          EXCLUDE: "/dist/, /node_modules/"
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            sudo chown -R www-data:www-data /var/www/tobiaspitters.com
+            sudo chmod -R 755 /var/www/tobiaspitters.com
+            sudo nginx -t && sudo systemctl reload nginx
+            echo "Deployment successful!"
