@@ -18,7 +18,7 @@ const CaseStudy = ({ data }) => {
     'https://anuraghazra.github.io' + data.markdownRemark.fields.slug;
   const study = data.markdownRemark.frontmatter;
 
-  const infoLinks = study.info.links && (
+  const infoLinks = study?.info?.links && (
     <div>
       <InfoTitle>Links & Resources</InfoTitle>
       <ul>
@@ -42,23 +42,29 @@ const CaseStudy = ({ data }) => {
 
         <section className="case__info">
           <div>
-            <aside>
-              <InfoTitle>Idea</InfoTitle>
-              <p>{study.info.idea}</p>
-            </aside>
-            <aside>
-              <InfoTitle>Core Technologies</InfoTitle>
-              <ul>
-                {study.info.tech.map((tech, i) => (
-                  <li key={i}>{tech}</li>
-                ))}
-              </ul>
-            </aside>
+            {study?.info?.idea && (
+              <aside>
+                <InfoTitle>Idea</InfoTitle>
+                <p>{study.info.idea}</p>
+              </aside>
+            )}
+            {study?.info?.tech && (
+              <aside>
+                <InfoTitle>Core Technologies</InfoTitle>
+                <ul>
+                  {study.info.tech.map((tech, i) => (
+                    <li key={i}>{tech}</li>
+                  ))}
+                </ul>
+              </aside>
+            )}
             {infoLinks}
           </div>
-          <div className="case__iframe-container">
-            <IFrame src={study.iframe} />
-          </div>
+          {study?.iframe && (
+            <div className="case__iframe-container">
+              <IFrame src={study.iframe} />
+            </div>
+          )}
         </section>
 
         <SplitLayout
