@@ -33,13 +33,11 @@ jobs:
           SOURCE: "public/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: "/var/www/tobiaspitters.com"
+          TARGET: "~/www/tobiaspitters.com"
           EXCLUDE: "/dist/, /node_modules/"
           SCRIPT_BEFORE: |
+            mkdir -p ~/www/tobiaspitters.com
             whoami
-            ls -al
           SCRIPT_AFTER: |
-            sudo chown -R www-data:www-data /var/www/tobiaspitters.com
-            sudo chmod -R 755 /var/www/tobiaspitters.com
-            sudo nginx -t && sudo systemctl reload nginx
             echo "Deployment successful!"
+            ls -lh ~/www/tobiaspitters.com/ | head -5
