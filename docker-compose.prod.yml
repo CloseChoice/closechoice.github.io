@@ -1,0 +1,13 @@
+version: "3.1"
+
+services:
+  frontend-prod:
+    container_name: tobias-pitters-frontend-prod
+    image: tobias-pitters-frontend-prod-image
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      # The port of the website
+      - 4444:9000

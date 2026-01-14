@@ -1,0 +1,16 @@
+FROM node:18.20.8-alpine3.21
+
+# Set the working directory
+WORKDIR /app
+
+# Copy only the public directory into the container
+COPY public /app/public
+
+# Install Gatsby CLI globally
+RUN npm install -g serve
+
+# Expose the port Gatsby serve uses
+EXPOSE 9000
+
+# Command to serve the Gatsby site
+CMD ["serve", "-s", "public", "-l", "9000"]
