@@ -5,8 +5,6 @@ author: Tobias Pitters
 tags: ["open-source", "SHAP"]
 ---
 
-# SHAP got rid of Numba and llvmlite
-
 ## What we did
 
 We moved performance-critical code from numba to C++. We got rid of numba entirely.
@@ -124,5 +122,5 @@ used across compatible CPython versions starting with Python 3.12.
 That means fewer binaries to build and publish with every release.
 
 
-Thanks to the [German Center for Open-Source AI](gcos.ai) for financing this project and
-to [Zhihao Dai](https://github.com/daidahaohttps://github.com/daidahao) for driving the implementation.
+Thanks to the [German Center for Open-Source AI](https://gcos.ai) for financing this project and
+to [Zhihao Dai](https://github.com/daidahao) for driving the implementation.
