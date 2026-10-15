@@ -17,7 +17,6 @@ const social = {
 const website = {
   ...meta,
   ...social,
-  disqusShortName: 'tobiaspitters',
   // Manifest
   themeColor: '#6D83F2',
   backgroundColor: '#6D83F2',

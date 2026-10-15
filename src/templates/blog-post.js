@@ -9,20 +9,14 @@ import SocialShareSection from '@components/Blog/SocialShareSection';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BlogDateAndReadTime } from '@components/Blog/BlogCard';
-import { DiscussionEmbed } from 'disqus-react';
 
-import { siteUrl, disqusShortName } from '../../config/website';
+import { siteUrl } from '../../config/website';
 
 const BlogPost = ({ data, pageContext }) => {
   const { title, date } = data.markdownRemark.frontmatter;
-  const { timeToRead, html, excerpt, id } = data.markdownRemark;
+  const { timeToRead, html, excerpt } = data.markdownRemark;
 
   const baseSlugUrl = siteUrl + pageContext.slug;
-  const disqusConfig = {
-    identifier: id,
-    title: title,
-    url: baseSlugUrl,
-  };
 
   const githubLink = `https://github.com/anuraghazra/anuraghazra.github.io/tree/develop/content${pageContext.slug}/index.md`;
 
@@ -60,7 +54,6 @@ const BlogPost = ({ data, pageContext }) => {
           className="markdown-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-        <DiscussionEmbed shortname={disqusShortName} config={disqusConfig} />
       </BlogLayout>
     </Layout>
   );
@@ -72,7 +65,6 @@ export const query = graphql`
       excerpt
       html
       timeToRead
-      id
       frontmatter {
         date(formatString: "MMMM DD, YYYY", locale: "en")
         title

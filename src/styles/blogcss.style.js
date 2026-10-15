@@ -7,13 +7,6 @@ const blogstyles = css`
     }
   }
 
-  /* Other Specific Global Styles */
-  div#disqus_thread {
-    background: whitesmoke;
-    padding: 15px 25px;
-    border-radius: 10px;
-  }
-
   .markdown-content {
     ${p => p.theme.spacing.sectionTopBottom};
     margin-top: 50px;
